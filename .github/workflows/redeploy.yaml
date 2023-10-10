@@ -24,7 +24,7 @@ jobs:
         run: yarn build
 
       - name: Build the new image
-        run: docker build -t my-nginx-project:dev --no-cache .
+        run: docker build -t my-nginx-project:dev .
       - name: Set up QME
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker BuildX
@@ -38,6 +38,7 @@ jobs:
 
       - name: Build AND PUSH
         uses: docker/build-push-action@v5
-        with: 
+        with:
+          context: .
           push: true
           tags: title20306/helloautomate:latest
