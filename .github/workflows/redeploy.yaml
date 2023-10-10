@@ -1,0 +1,40 @@
+name: Build and push Nginx image with build file
+
+on:
+  push:
+    branches: [ dev ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install Yarn
+        run: npm install -g yarn
+
+      - name: Install the project's dependencies
+        run: yarn install
+      - name: Build file project with yarn
+        run: yarn build
+
+      - name: Copy the build file to the nginx:alpine image
+        run: docker cp ./dist nginx:alpine:/usr/share/nginx/html/
+
+      - name: Build the new image
+        run: docker build -t my-nginx-project:dev .
+
+      - name: Push the new image to Docker Hub
+        uses: docker/build-push-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          registry: docker.io
+          repository: my-nginx-project
+          tag: dev
