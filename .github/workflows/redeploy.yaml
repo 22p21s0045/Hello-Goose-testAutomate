@@ -32,5 +32,5 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           registry: docker.io
-          repository: my-nginx-project
-          tag: dev
+          repository: helloautomate
+          tag: latest
