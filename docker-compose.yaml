@@ -1,0 +1,6 @@
+services:
+  webpr:
+    image: title20306/helloautomate:latest
+    restart: always
+    ports:
+      - 80:80
